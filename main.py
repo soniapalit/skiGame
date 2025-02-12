@@ -10,6 +10,8 @@ screen = pygame.display.set_mode((screenW,screenH));
 clock=pygame.time.Clock()
 running=True;
 dt=0;
+num = 0
+skierRect = pygame.transform.scale_by(pygame.image.load("SKIERNOWRIGHTONE-removebg-preview.png"),.5)
 
 ##Photo by eberhard grossgasteiger: https://www.pexels.com/photo/snowy-mountain-1287145/
 
@@ -34,7 +36,7 @@ class Background:
 
 class Skier:
     def __init__(self,positionP):
-        self.xVelocity = 1
+        self.xVelocity = 0
         self.yVelocity=0
         self.position=positionP
 
@@ -61,24 +63,35 @@ class Skier:
 
 
 def drawSkier(skier: Skier):
-    skierRect = pygame.Rect(skier.position, (200,200))
-    pygame.draw.ellipse(screen, "pink" ,skierRect)
+    # skierRect = pygame.Rect(skier.position, (200,200))
+    # pygame.draw.ellipse(screen, "pink" ,skierRect)
+    
+    screen.blit(skierRect, (skier.position))
 
-background = pygame.transform.scale_by(pygame.image.load("mountainBackground.jpg"), .25)
+background = pygame.transform.scale_by(pygame.image.load("SKISKIYA.png"), .5)
 
-def drawBackground():
-    screen.blit(background,(0,0))
 
-skiposvector = pygame.Vector2(100,100);
+def drawBackground(numb):
+    screen.blit(background,(numb,-10))
+
+def moveBackground(numb):
+    if numb<=-1050:
+        numb = 0
+    else:
+        numb-=10
+    return numb
+
+skiposvector = pygame.Vector2(100,-100);
 skiingSonia = Skier(skiposvector)
 grid = Background(skiingSonia)
 
 
 while running:
-    drawBackground()
-    print(skiingSonia.getX(),skiingSonia.getY())
+    drawBackground(num)
+    print(num)
     skiingSonia.calculateNextPos()
     drawSkier(skiingSonia)
+    num = moveBackground(num)
     if skiingSonia.getY()>600:
         print(skiingSonia.getY())
     for event in pygame.event.get():

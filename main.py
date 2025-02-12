@@ -5,13 +5,13 @@ screenW=600
 screenH=400
 ground = 300
 
-pygame.init();
-screen = pygame.display.set_mode((screenW,screenH));
+pygame.init()
+screen = pygame.display.set_mode((screenW,screenH))
 clock=pygame.time.Clock()
-running=True;
-dt=0;
+running=True
+dt=0
 num = 0
-skierRect = pygame.transform.scale_by(pygame.image.load("SKIERNOWRIGHTONE-removebg-preview.png"),.5)
+skierRect = pygame.transform.scale_by(pygame.image.load("to-ski-73994_640-removebg-preview.png"),.3)
 
 ##Photo by eberhard grossgasteiger: https://www.pexels.com/photo/snowy-mountain-1287145/
 

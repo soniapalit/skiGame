@@ -6,8 +6,9 @@ import math
 screenW=1050 
 screenH=700 
 ground = 550.0
-terrainCounter = 0
+terrainCounter = 1
 terrainEnd = 81.38495
+counterSpeedMultiplier = 35
 
 #placing spikes on ground 🌵
 #HIT DETECTION 🎯
@@ -101,7 +102,7 @@ def drawSkier(skier: Skier):
 background = pygame.transform.scale_by(pygame.image.load("SKISKIYA.png"), .8)
 foreground = pygame.transform.scale_by(pygame.image.load("SNOWYHILSSDESMOS.png"), 4)
 #https://www.deviantart.com/ladylockedinthetower/art/Cactus-253452385
-cutiecactus = pygame.transform.scale_by(pygame.image.load("cactuscuteobstacle.png"),1)
+cutiecactus = pygame.transform.scale_by(pygame.image.load("cactuscuteobstacle.png"),0.25)
 
 # get f as a file object
 #f.readline().split(",")
@@ -183,28 +184,30 @@ def moveBackground(numb):
     return numb
 
 def moveForeground(numb2):
-    if numb2 <= -70000:
-        numb2=0
-    else:
-        numb2=-(terrainCounter*35) + 155
+    # if numb2 <= -70000:
+    #     numb2=0
+    # else:
+    #     
+    numb2=-(terrainCounter*counterSpeedMultiplier) + 155
     return numb2
 
 skiposvector = pygame.Vector2(100,-100)
 skiingSonia = Skier(skiposvector)
 grid = Background(skiingSonia)
-
-spkies = obstacle(30)
+spikes = obstacle(30)
 
 
 while running:
     ground = 550 - 50 * getExpression (terrainCounter)
     print(f"Ground = {ground}")
+    print(f"cpunter: {terrainCounter}")
     drawBackground(num)
     drawForeground(numFore)
-    if spkies.getInView(terrainCounter):
-        screen.blit(cutiecactus,(10,10))
+    if True: #spikes.getInView(terrainCounter):
+        spike_ground = 550 - 50 * getExpression (spikes.x)
+        screen.blit(cutiecactus,((spikes.x - terrainCounter)*counterSpeedMultiplier,spike_ground-20))
 
-    terrainCounter+=.1
+    terrainCounter+=.1 * (counterSpeedMultiplier/35)
     if terrainCounter >= terrainEnd:
         terrainCounter=0
     
@@ -222,6 +225,6 @@ while running:
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_w and skiingSonia.getY()>=ground-5:
                 grid.jump()
-    time.sleep(.02)
+    time.sleep(.01)
     pygame.display.flip()
 pygame.quit()

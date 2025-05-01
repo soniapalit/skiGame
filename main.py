@@ -82,7 +82,7 @@ class Skier:
         self.position.y+=self.yVelocity
         self.position.x+=self.xVelocity
         if self.position.y<ground:
-            self.yVelocity+=5
+            self.yVelocity+=1
         if self.position.y>=ground:
             self.yVelocity = 0
             self.position.y=ground
@@ -102,7 +102,7 @@ def drawSkier(skier: Skier):
 background = pygame.transform.scale_by(pygame.image.load("SKISKIYA.png"), .8)
 foreground = pygame.transform.scale_by(pygame.image.load("SNOWYHILSSDESMOS.png"), 4)
 #https://www.deviantart.com/ladylockedinthetower/art/Cactus-253452385
-cutiecactus = pygame.transform.scale_by(pygame.image.load("cactuscuteobstacle.png"),0.25)
+cutiecactus = pygame.transform.scale_by(pygame.image.load("cactuscuteobstacle.png"),0.1)
 
 # get f as a file object
 #f.readline().split(",")
@@ -194,7 +194,12 @@ def moveForeground(numb2):
 skiposvector = pygame.Vector2(100,-100)
 skiingSonia = Skier(skiposvector)
 grid = Background(skiingSonia)
+obstacles = []
 spikes = obstacle(30)
+obstacles.append(spikes)
+obstacles.append(obstacle(50))
+
+obstacles.append(obstacle(75))
 
 
 while running:
@@ -204,10 +209,11 @@ while running:
     drawBackground(num)
     drawForeground(numFore)
     if True: #spikes.getInView(terrainCounter):
-        spike_ground = 550 - 50 * getExpression (spikes.x)
-        screen.blit(cutiecactus,((spikes.x - terrainCounter)*counterSpeedMultiplier,spike_ground-20))
+        for kiki in obstacles:
+            spike_ground = 550 - 50 * getExpression (kiki.x)
+            screen.blit(cutiecactus,((kiki.x - terrainCounter)*counterSpeedMultiplier,spike_ground+50))
 
-    terrainCounter+=.1 * (counterSpeedMultiplier/35)
+    terrainCounter+=.1 * 2
     if terrainCounter >= terrainEnd:
         terrainCounter=0
     
@@ -223,7 +229,7 @@ while running:
             running = False;
 
         if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_w and skiingSonia.getY()>=ground-5:
+            if event.key==pygame.K_w and skiingSonia.getY()>=ground-10:
                 grid.jump()
     time.sleep(.01)
     pygame.display.flip()
